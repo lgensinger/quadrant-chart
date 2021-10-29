@@ -1,6 +1,6 @@
 {
   "name": "@lgv/quadrant-chart",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "type": "module",
   "description": "ES6 d3.js quadrant (xy) visualization",
   "main": "bin/index.js --experimental-json-modules",
@@ -42,7 +42,8 @@
     "d3-axis": "^3.0.0",
     "d3-scale": "^4.0.0",
     "d3-selection": "^3.0.0",
-    "linkedom": "^0.13.0"
+    "linkedom": "^0.13.0",
+    "sharp": "^0.29.2"
   },
   "ava": {
     "files": [
