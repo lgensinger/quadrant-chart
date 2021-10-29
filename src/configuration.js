@@ -1,7 +1,7 @@
-import { name } from "../package.json";
+import pkg from "../package.json";
 
 const configuration = {
-    name: name.replace("/", "-").slice(1)
+    name: pkg.name.replace("/", "-").slice(1)
 };
 
 const configurationDimension = {
