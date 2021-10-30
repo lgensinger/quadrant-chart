@@ -19,6 +19,7 @@ class QuadrantChart {
         this.content = null;
         this.dataSource = data;
         this.height = height;
+        this.label = null;
         this.max = max;
         this.min = min;
         this.name = name;
@@ -147,6 +148,17 @@ class QuadrantChart {
     }
 
     /**
+     * Position and minimally style labels in SVG dom element.
+     */
+    configureLabels() {
+        this.label
+            .attr("x", d => this.xScale(d.x))
+            .attr("y", d => this.yScale(d.y))
+            .attr("dy", "0.35em")
+            .text(d => d.id);
+    }
+
+    /**
      * Position and minimally style nodes in SVG dom element.
      */
     configureNodes() {
@@ -213,23 +225,6 @@ class QuadrantChart {
     }
 
     /**
-     * Construct circle selection in HTML DOM.
-     * @param {node} domNode - HTML node
-     * @returns A d3.js selection.
-     */
-    generateNodes(domNode) {
-        return domNode
-            .selectAll(".lgv-node")
-            .data(this.data)
-            .join(
-                enter => enter.append("circle"),
-                update => update,
-                exit => exit.remove()
-            )
-            .attr("class", "lgv-node")
-    }
-
-    /**
      * Construct background grid.
      * @param {node} domNode - d3 selection
      * @returns A d3.js selection.
@@ -248,6 +243,40 @@ class QuadrantChart {
             .attr("y", 0)
             .attr("width", this.width)
             .attr("height", this.height);
+    }
+
+    /**
+     * Construct node text labels in HTML DOM.
+     * @param {node} domNode - d3.js selection
+     * @returns A d3.js selection.
+     */
+    generateLabels(domNode) {
+        return domNode
+            .selectAll(".lgv-label")
+            .data(this.data)
+            .join(
+                enter => enter.append("text"),
+                update => update,
+                exit => exit.remove()
+            )
+            .attr("class", "lgv-label")
+    }
+
+    /**
+     * Construct circle selection in HTML DOM.
+     * @param {node} domNode - HTML node
+     * @returns A d3.js selection.
+     */
+    generateNodes(domNode) {
+        return domNode
+            .selectAll(".lgv-node")
+            .data(this.data)
+            .join(
+                enter => enter.append("circle"),
+                update => update,
+                exit => exit.remove()
+            )
+            .attr("class", "lgv-node")
     }
 
     /**
@@ -307,6 +336,12 @@ class QuadrantChart {
 
         // position/style nodes
         this.configureNodes();
+
+        // generate node labels
+        this.label = this.generateLabels(this.content);
+
+        // position/style labels
+        this.configureLabels();
 
         // generate y axis
         this.generateYaxis(this.content)

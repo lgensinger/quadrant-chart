@@ -35,7 +35,7 @@ const { document } = parseHTML(`
 `);
 
 // initialize chart
-let qc = new QuadrantChart(args.data, args.width, args.height, parseInt(args.min), parseInt(args.max), args.labels);
+let qc = new QuadrantChart(args.data, parseInt(args.width), parseInt(args.height), parseInt(args.min), parseInt(args.max), args.labels);
 
 // generate in basic dom
 let a = qc.render(document.body);
@@ -46,8 +46,9 @@ let component = document.body.toString()
     .replace("</body>", "")
     .replace("</svg>", `<style>${args.css}</style></svg>`);
 
+// render svg to png
 let img = await sharp(Buffer.from(component));
-await img.toFile("blah.png");
+await img.toFile(`${args.filename}.png`);
 
 // surface data
-console.log(a);
+console.log(component);
